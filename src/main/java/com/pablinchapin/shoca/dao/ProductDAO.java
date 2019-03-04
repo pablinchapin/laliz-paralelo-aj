@@ -125,7 +125,7 @@ public class ProductDAO {
             query.setParameter("likeName", "%" + likeName.toLowerCase() + "%");
         }
         
-        return new PaginationResult<ProductInfo>(query, page, maxResult, maxNavigationPage);
+        return new PaginationResult<>(query, page, maxResult, maxNavigationPage);
     }
     
     
