@@ -35,45 +35,45 @@
     
     <div class="container">
         
-        <form class="form-signin"
-              method="POST"
-              ht:action="@{j_spring_security_check}">
-            <img class="mb-4" src="http://placehold.it/72x72" alt="" width="72" height="72" />
-            <h1 class="h3 mb-3 font-weight-normal">Please login</h1>
-            
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />
-            
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
-            
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me">Remember me
-                </label>
+        <h1 class="h3 mb-3 font-weight-normal">Order List</h1>
+        
+        <div>Total Order Count: <span th:utext="${paginationResult.totalRecords}"></span></div>
+        
+        <div class="col-lg-12">
+            <table class="table" border="1">
+                <tr>
+                    <th>Order #</th>
+                    <th>Order Date</th>
+                    <th>Customer Name</th>
+                    <th>Customer Address</th>
+                    <th>Customer Email</th>
+                    <th>Amount</th>
+                    <th>View</th>
+                </tr>
                 
-                
-                <span class="text-danger" th:utext="${error}"></span>
-                
-            </div>
+                <tr th:each="orderInfo : ${paginationResult.list}">
+                    <td th:utext="${orderInfo.orderNum}"></td>
+                    <td th:utext="${#dates.format(orderInfo.orderDate, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:utext="${orderInfo.customerName}"></td>
+                    <td th:utext="${orderInfo.customerAddress}"></td>
+                    <td th:utext="${orderInfo.customerEmail}"></td>
+                    <td th:utext="${#numbers.formatDecimal(orderInfo.amount,3,2,'COMMA')}"></td>
+                    <td>
+                        <a th:href="@{|/admin/order?orderId=${orderInfo.id}|}">View</a>
+                    </td>
+                </tr>
+
+            </table>
             
-            <th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
-                <div th:if="${#request.getParameter('error') == true}"
-                    class='text-danger'>
-                         <label class="text-danger">Login failed!
-                             <br />
-                             Reason:
-                         </label>
-                    <span ht:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}"></span>
+            <div th:if="${paginationResult.totalPages > 1}">
+                <th:block ht:each="page: ${paginationResult.navigationPages}">
+                    <a th:if="${page !- -1}" class="nav-item"
+                       th:href="@{|/admin/orderList?page=${page}|}" th:utext="${page}"></a>
                     
-                </div>
-            </th:block>
-            
-            
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2019</p>
-            
-        </form>
+                    <span th:if="${page == -1}" class="nav-item">...</span>
+                </th:block>
+            </div>
+        </div>
         
     </div>
     

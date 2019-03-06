@@ -93,7 +93,7 @@ public class MainController {
         
         PaginationResult<ProductInfo> result = productDAO.queryProducts(page, maxResult, maxNavigationPage, likeName);
 
-        model.addAttribute("paginationProducts", result);
+        model.addAttribute("paginationResult", result);
         
             
     return "productList";

@@ -25,7 +25,7 @@
             th:href="@{/dist/css/adminLTE.min.css}"/>
     -->
 </head>
-<body class="text-center">
+<body>
     
     
     <th:block th:include="/_header"></th:block>
@@ -35,47 +35,53 @@
     
     <div class="container">
         
-        <form class="form-signin"
-              method="POST"
-              ht:action="@{j_spring_security_check}">
-            <img class="mb-4" src="http://placehold.it/72x72" alt="" width="72" height="72" />
-            <h1 class="h3 mb-3 font-weight-normal">Please login</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Product List</h1>
+        
+        <div class="card-deck mb-3 text-center">
             
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus />
-            
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
-            
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me">Remember me
-                </label>
+            <div class="card mb-4 shadow-sm"
+                 th:each="productInfo: ${paginationResult.list}">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        <span th:utext="${productInfo.code}"></span>
+                    </h4>
+                </div>
                 
-                
-                <span class="text-danger" th:utext="${error}"></span>
-                
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$ <span th:utext="${#numbers.formatDecimal(productInfo.price,3,2,'COMMA')}"></span><small class="text-muted"> /each</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li><span th:utext="${productInfo.name}"></span></li>
+                        <li><span th:utext="${productInfo.name}"></span></li>
+                        <li>Email support</li>
+                        <li>Help center access</li>
+                    </ul>
+                    <button type="button" 
+                            class="btn btn-lg btn-block btn-primary">Click</button>
+                </div>
             </div>
             
-            <th:block th:if="${#session != null && #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}">
-                <div th:if="${#request.getParameter('error') == true}"
-                    class='text-danger'>
-                         <label class="text-danger">Login failed!
-                             <br />
-                             Reason:
-                         </label>
-                    <span ht:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}"></span>
-                    
-                </div>
+            
+            
+            
+        
+        
+        </div>
+        
+        
+        
+            
+        <div th:if="${paginationResult.totalPages > 1}">
+            <th:block ht:each="page: ${paginationResult.navigationPages}">
+                <a th:if="${page !- -1}" class="nav-item"
+                   th:href="@{|/productList?page=${page}|}" th:utext="${page}"></a>
+
+                <span th:if="${page == -1}" class="nav-item">...</span>
             </th:block>
-            
-            
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2019</p>
-            
-        </form>
+        </div>
         
     </div>
+        
+    
     
     
     <th:block th:include="/_footer"></th:block>

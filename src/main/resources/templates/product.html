@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">LaLiz</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no shrink-to-fit=no"/>
+    
+    <link   rel="stylesheet" 
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+            th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css}"
+            integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+            crossorigin="anonymous">
+    <link   rel="stylesheet" 
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            th:href="@{https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}"/>
+    <link   rel="stylesheet" 
+            href="https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css"
+            th:href="@{https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css}"/>
+    <!--
+    <link   rel="stylesheet" 
+            href="dist/css/adminLTE.min.css" 
+            th:href="@{/dist/css/adminLTE.min.css}"/>
+    -->
+</head>
+<body class="text-center">
+    
+    
+    <th:block th:include="/_header"></th:block>
+    
+    
+    <div class="container">
+        
+        <!--<h1 class="h3 mb-3 font-weight-normal">Product</h1>-->
+        
+        <div th:if="${errorMessage != null}" class="text-danger" ht:utext="${errorMessage}"></div>
+        
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Product</h4>
+            
+            <form class="needs-validation" 
+                  th:object="${productForm}"
+                  th:action="@{/admin/product}"
+                  method="POST" enctype="multipart/form-data"
+                  novalidate>
+                <div class="row">
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="code">Code *</label>
+                        <input th:field="*{newProduct}" type="hidden" />
+                        <input th:if="${productForm.newProduct}" type="hidden" />
+                        
+                            <th:block th:if="${!productForm.newProduct}">
+                                <span th:utext="${productForm.code}"></span>
+                                <input type="hidden" th:field="*{code}" />
+                            </th:block>
+                            
+                            <input type="hidden" class="form-control" id="code" placeholder="" value="" required >
+                            <div class="invalid-feedback">
+                                <span th:if="${#fields.hasErrors('code')}"
+                                      th:errors="*{code}"></span>
+                            </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="" value="" required >
+                            <div class="invalid-feedback">
+                                <span th:if="${#fields.hasErrors('name')}"
+                                      th:errors="*{name}"></span>
+                            </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price" placeholder="" value="" required >
+                            <div class="invalid-feedback">
+                                <span th:if="${#fields.hasErrors('price')}"
+                                      th:errors="*{price}"></span>
+                            </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="image">Image</label>
+                        <span>
+                            <img th:src="@{|productImage?code=${productForm.code}|}" width="100" />
+                        </span>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="name">Upload Image</label>
+                        <input type="file" 
+                               class="form-control" 
+                               th:field="*{fileData}"
+                               id="fileData" >
+                    </div>
+                    
+                    <hr class="mb-4" />
+                    <button class="btn btn-primary btn-lg btn-block"
+                            type="submit">Submit</button>
+                    
+                    
+                </div>
+            </form>
+            
+        </div>
+        
+        
+        
+    </div>
+    
+    
+    <th:block th:include="/_footer"></th:block>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      
+</body>
+</html>

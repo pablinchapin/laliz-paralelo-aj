@@ -109,14 +109,14 @@ public class ProductDAO {
     public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage, String likeName){
     
         String sql = "SELECt NEW " +ProductInfo.class.getName()
-                +" (p.CODE, p.NAME, p.PRICE )" + " FROM "
+                +" ( p.code, p.name, p.price )" + " FROM "
                 + Product.class.getName() + " p ";
         
         if(likeName != null && likeName.length() > 0){
-            sql += " WHERE LOWER(p.NAME) LIKE :likeName ";
+            sql += " WHERE LOWER(p.name) LIKE :likeName ";
         }
         
-        sql += " ORDER BY p.CREATED_DATE DESC; ";
+        sql += " ORDER BY p.createDate DESC ";
         
         Session session = this.sessionFactory.getCurrentSession();
         Query<ProductInfo> query = session.createQuery(sql, ProductInfo.class);
