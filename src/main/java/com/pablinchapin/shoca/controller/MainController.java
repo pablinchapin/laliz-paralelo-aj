@@ -221,27 +221,27 @@ public class MainController {
     }
     
     
-    @RequestMapping(value = {"/shoppingCartConfirmation"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/shoppingCartCheckout"}, method = RequestMethod.GET)
     public String shoppingCartConfirmationReview(
             HttpServletRequest request,
             Model model
     ){
         
         CartInfo cartInfo = Utils.getCartInSession(request);
-        
+        /*
         if(cartInfo == null || cartInfo.isEmpty()){
             return "redirect:/shoppingCart";
         }else if(!cartInfo.isValidCustomer()){
                 return "redirect:/shoppingCartCustomr";
         }
-        
+        */
         model.addAttribute("newCart", cartInfo);
     
-    return "shoppingCartConfirmation";
+    return "shoppingCartCheckout";
     }
     
     
-    @RequestMapping(value = {"/shoppingCartConfirmation"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/shoppingCartCheckout"}, method = RequestMethod.POST)
     public String shoppingCartConfirmationSave(
             HttpServletRequest request,
             Model model
@@ -252,13 +252,13 @@ public class MainController {
         if(cartInfo.isEmpty()){
             return "redirect:/shoppingCart";
         }else if(!cartInfo.isValidCustomer()){
-                return "redirect:/shoppingCartCustomer";
+                return "redirect:/shoppingCartCheckout";
         }
         
         try{
             orderDAO.saveOrder(cartInfo);
         }catch(Exception e){
-            return "shoppingCartConfirmation";
+            return "shoppingCartCheckout";
         }
         
         

@@ -34,15 +34,63 @@
                    th:href="@{/shoppingCart}">MyCart</a>
             </li>
             
+            <!--
             <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
+            -->
+            
+            <th:block sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_EMPLOYEE')">
+                <li class="nav-item">
+                    <a class="nav-link" 
+                       th:href="@{/admin/orderList}">OrderList</a>
+                </li>
+            </th:block>
+        
+            <th:block sec:authorize="hasRole('ROLE_MANAGER')">
+                <li class="nav-item">
+                    <a class="nav-link" 
+                       th:href="@{/admin/product}">Add product</a>
+                </li>
+            </th:block>
+            
             
         </ul>
         
+        
+        
+        
+        
+        
+        
+        
         <form class="form-inline my-2 my-lg-0">
             <!--<input class="form-control mr-sm-2" type="search" placeholder="Search">-->
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            <th:block sec:authorize="isAuthenticated()">
+                Hi 
+                
+                <a  class="btn btn-outline-success my-2 my-sm-0"
+                    role="button"
+                    aria-pressed="true"
+                    th:href="@{/admin/accountInfo}"
+                    th:utext="${#request.userPrincipal.name}"></a>
+                
+                <a  class="btn btn btn-outline-success my-2 my-sm-0"
+                    role="button"
+                    aria-pressed="true"
+                    th:href="@{/admin/logout}">Logout</a>
+            </th:block>
+            
+            
+            <th:block sec:authorize="!isAuthenticated()">
+                <a  class="btn btn-outline-success my-2 my-sm-0"
+                    role="button"
+                    aria-pressed="true"
+                    th:href="@{/admin/login}">Login</a>
+            </th:block>
+            
+            
+            <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button> -->
         </form>
     </div>
 </nav>

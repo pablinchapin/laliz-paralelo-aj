@@ -73,6 +73,11 @@ public class AdminController {
     }
     
     
+    @RequestMapping(value = {"/admin/login"}, method = RequestMethod.POST)
+    public String loginPost(Model model){
+    return "login";
+    }
+    
     @RequestMapping(value = {"/admin/accountInfo"}, method = RequestMethod.GET)
     public String accountInfo(Model model){
         
