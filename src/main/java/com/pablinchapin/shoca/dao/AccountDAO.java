@@ -6,11 +6,12 @@
 package com.pablinchapin.shoca.dao;
 
 import com.pablinchapin.shoca.entity.Account;
-import javax.transaction.Transactional;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *

@@ -76,7 +76,18 @@ public class MainController {
     }
     
     @RequestMapping("/")
-    public String home(){
+    public String home(
+            Model model,
+            @RequestParam(value = "page", defaultValue = "1") int page
+    ){
+        
+        final int maxResult = 5;
+        final int maxNavigationPage = 10;
+        
+        PaginationResult<ProductInfo> result = productDAO.queryProduct(page, maxResult, maxNavigationPage);
+        
+        model.addAttribute("paginationResult", result);
+        
     return "index";
     }
     

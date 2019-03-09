@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -20,10 +21,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
-    UserDetailsServiceImpl userDetailsServiceImpl;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
+
+    public WebSecurityConfig() {
+        super();
+    }
+    
+    
+    
     
     @Bean
     BCryptPasswordEncoder passwordEncoder(){
@@ -33,9 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return bCryptPasswordEncoder;    
     }
     
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception{
+        System.out.println("public void configureGlobal-> "+auth);
         //Setting service to find user in the database and setting PasswordEncoder
         auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
     }
@@ -43,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+        
+        System.out.println("protected void configure(HttpSecurity http)");
         
         http.csrf().disable();
         
@@ -65,6 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedPage("/403");
         
         //Configuration for Login Form
+        //.loginPage("/admin/login")
         http.authorizeRequests()
                 .and()
                 .formLogin()
