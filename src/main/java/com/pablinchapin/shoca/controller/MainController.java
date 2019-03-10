@@ -5,11 +5,13 @@
  */
 package com.pablinchapin.shoca.controller;
 
+import com.pablinchapin.shoca.dao.CategoryDAO;
 import com.pablinchapin.shoca.dao.OrderDAO;
 import com.pablinchapin.shoca.dao.ProductDAO;
 import com.pablinchapin.shoca.entity.Product;
 import com.pablinchapin.shoca.form.CustomerForm;
 import com.pablinchapin.shoca.model.CartInfo;
+import com.pablinchapin.shoca.model.CategoryInfo;
 import com.pablinchapin.shoca.model.CustomerInfo;
 import com.pablinchapin.shoca.model.ProductInfo;
 import com.pablinchapin.shoca.pagination.PaginationResult;
@@ -48,6 +50,9 @@ public class MainController {
     private ProductDAO productDAO;
     
     @Autowired
+    private CategoryDAO categoryDAO;
+    
+    @Autowired
     private CustomerFormValidator customerFormValidator;
     
     
@@ -84,13 +89,31 @@ public class MainController {
         final int maxResult = 5;
         final int maxNavigationPage = 10;
         
-        PaginationResult<ProductInfo> result = productDAO.queryProduct(page, maxResult, maxNavigationPage);
+        PaginationResult<ProductInfo> result = productDAO.queryProduct(page, maxResult, maxNavigationPage);  
+        PaginationResult<CategoryInfo> resultCategory = categoryDAO.queryCategory(page, maxResult, maxNavigationPage);
         
         model.addAttribute("paginationResult", result);
+        model.addAttribute("paginationResultCategory", resultCategory);
         
     return "index";
     }
     
+    
+    @RequestMapping({"/categoryList"})
+    public String listCategoryHandler(
+            Model model,
+            @RequestParam(value = "name", defaultValue = "") String likeName,
+            @RequestParam(value = "page", defaultValue = "1") int page
+    ){
+        final int maxResult = 5;
+        final int maxNavigationPage = 10;
+        
+        PaginationResult<CategoryInfo> result = categoryDAO.queryCategories(page, maxResult, maxNavigationPage, likeName);
+        
+        model.addAttribute("paginationResult", result);
+    
+    return "categoryList";
+    }
     
     @RequestMapping({"productList"})
     public String listProductHandler(
@@ -103,8 +126,10 @@ public class MainController {
         final int maxNavigationPage = 10;
         
         PaginationResult<ProductInfo> result = productDAO.queryProducts(page, maxResult, maxNavigationPage, likeName);
+        PaginationResult<CategoryInfo> resultCategory = categoryDAO.queryCategory(page, maxResult, maxNavigationPage);
 
         model.addAttribute("paginationResult", result);
+        model.addAttribute("paginationResultCategory", resultCategory);
         
             
     return "productList";
