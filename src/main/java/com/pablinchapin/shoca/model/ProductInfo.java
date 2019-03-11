@@ -14,14 +14,20 @@ import com.pablinchapin.shoca.entity.Product;
 public class ProductInfo {
     
     private String code;
+    private String category_code;
+    private String image_url;
+    private int sale;
     private String name;
     private double price;
 
     public ProductInfo() {
     }
 
-    public ProductInfo(String code, String name, double price) {
+    public ProductInfo(String code, String category_code, String image_url, int sale, String name, double price) {
         this.code = code;
+        this.category_code = category_code;
+        this.image_url = image_url;
+        this.sale = sale;
         this.name = name;
         this.price = price;
     }
@@ -29,8 +35,12 @@ public class ProductInfo {
     //For JPA/Hibernate query
     public ProductInfo(Product product) {
         this.code = product.getCode();
+        this.category_code = product.getCategory_code();
+        this.image_url = product.getImage_url();
+        this.sale = product.getSale();
         this.name = product.getName();
         this.price = product.getPrice();
+        
     }
 
     public String getCode() {
@@ -55,6 +65,30 @@ public class ProductInfo {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getCategory_code() {
+        return category_code;
+    }
+
+    public void setCategory_code(String category_code) {
+        this.category_code = category_code;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public int getSale() {
+        return sale;
+    }
+
+    public void setSale(int sale) {
+        this.sale = sale;
     }
     
     

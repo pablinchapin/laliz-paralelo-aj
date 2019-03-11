@@ -89,7 +89,7 @@ public class MainController {
         final int maxResult = 5;
         final int maxNavigationPage = 10;
         
-        PaginationResult<ProductInfo> result = productDAO.queryProduct(page, maxResult, maxNavigationPage);  
+        PaginationResult<ProductInfo> result = productDAO.queryProduct(page, maxResult, maxNavigationPage, null, 1);  
         PaginationResult<CategoryInfo> resultCategory = categoryDAO.queryCategory(page, maxResult, maxNavigationPage);
         
         model.addAttribute("paginationResult", result);
@@ -119,13 +119,15 @@ public class MainController {
     public String listProductHandler(
             Model model,
             @RequestParam(value = "name", defaultValue = "") String likeName,
+            @RequestParam(value = "categoryCode", defaultValue = "") String categoryCode,
             @RequestParam(value = "page", defaultValue = "1") int page
     ){
         
+        final int sale = 1;
         final int maxResult = 5;
         final int maxNavigationPage = 10;
         
-        PaginationResult<ProductInfo> result = productDAO.queryProducts(page, maxResult, maxNavigationPage, likeName);
+        PaginationResult<ProductInfo> result = productDAO.queryProducts(page, maxResult, maxNavigationPage, likeName, categoryCode, sale);
         PaginationResult<CategoryInfo> resultCategory = categoryDAO.queryCategory(page, maxResult, maxNavigationPage);
 
         model.addAttribute("paginationResult", result);

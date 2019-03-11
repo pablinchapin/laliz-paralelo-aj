@@ -54,7 +54,7 @@ public class ProductDAO {
             return null;
         }
         
-        return new ProductInfo(product.getCode(), product.getName(), product.getPrice());
+        return new ProductInfo(product.getCode(), product.getCategory_code(), product.getImage_url(), product.getSale(), product.getName(), product.getPrice());
     }
     
     
@@ -106,14 +106,21 @@ public class ProductDAO {
     }
     
     
-    public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage, String likeName){
+    public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage, String likeName, String categoryCode, int sale ){
     
         String sql = "SELECt NEW " +ProductInfo.class.getName()
-                +" ( p.code, p.name, p.price )" + " FROM "
+                +" ( p.code, p.category_code, p.image_url, p.sale, p.name, p.price )" + " FROM "
                 + Product.class.getName() + " p ";
         
+        
+        sql += " WHERE p.sale = :sale ";
+        
+        if(categoryCode != null && categoryCode.length() > 0){
+            sql += " AND p.category_code = :categoryCode ";
+        }
+        
         if(likeName != null && likeName.length() > 0){
-            sql += " WHERE LOWER(p.name) LIKE :likeName ";
+            sql += " AND LOWER(p.name) LIKE :likeName ";
         }
         
         sql += " ORDER BY p.createDate DESC ";
@@ -121,6 +128,12 @@ public class ProductDAO {
         Session session = this.sessionFactory.getCurrentSession();
         Query<ProductInfo> query = session.createQuery(sql, ProductInfo.class);
         
+        query.setParameter("sale", sale);
+        
+        if(categoryCode != null && categoryCode.length() > 0){
+            query.setParameter("category_code", "'" + categoryCode + "'");
+        }
+                
         if(likeName != null && likeName.length() > 0){
             query.setParameter("likeName", "%" + likeName.toLowerCase() + "%");
         }
@@ -129,8 +142,8 @@ public class ProductDAO {
     }
     
     
-    public PaginationResult<ProductInfo> queryProduct(int page, int maxResult, int maxNavigationPage){
-        return queryProducts(page, maxResult, maxNavigationPage, null);
+    public PaginationResult<ProductInfo> queryProduct(int page, int maxResult, int maxNavigationPage, String categoryCode, int sale){
+        return queryProducts(page, maxResult, maxNavigationPage, null, categoryCode, sale);
     }
     
     
