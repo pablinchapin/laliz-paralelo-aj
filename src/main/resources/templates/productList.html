@@ -45,51 +45,25 @@
 
                 <ul class="list-group mb-3">
 
-                    
                     <li class="list-group-item d-flex justify-content-between lh-condensed"
                         th:each="categoryInfo: ${paginationResultCategory.list}">
                         <div>
-                            <h6 class="my-0 mb-3" th:utext="${categoryInfo.name}"></h6>
-                            <small class="text-muted"th:utext="${categoryInfo.description}"></small>
+                            <!-- <a th:href="@{|/productList?categoryCode=${categoryInfo.code}&page=1|}"> -->
+                                <h6 class="my-0 mb-3" th:utext="${categoryInfo.name}"></h6>
+                            <!-- </a> -->
+                            <small class="text-muted" th:utext="${categoryInfo.description}"></small>
                         </div>
-                        <!--<span class="text-muted" th:utext="${categoryInfo.description}"></span>-->
+                        <span>
+                            <a href="#"
+                            class="btn btn-primary btn-lg active"
+                            role="button"
+                            aria-pressed="true"
+                            th:href="@{|/productList?categoryCode=${categoryInfo.code}&page=1|}">View</a>
+                        </span>
                     </li>
-                    
-                    
-                    
-                        
-                    
-                    
-                    <!--
-                    
-                        <img src="http://placehold.it/960x320" class="d-block w-100" alt="${categoryInfo.name}">
-
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Category 2</h6>
-                            <small class="text-muted">Brief description</small>
-                        </div>
-                        <span class="text-muted">30/productos</span>
-                    </li>
-
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">Category 3</h6>
-                            <small class="text-muted">Brief description</small>
-                        </div>
-                        <span class="text-muted">20/products</span>
-                    </li>
-
-
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Cart</span>
-                    </li>
-                    -->
-
+                
                 </ul>
-
             </div>
-
 
 
             <div class="col-md-8 order-md-2">
@@ -103,37 +77,46 @@
                          th:each="productInfo: ${paginationResult.list}">
                         <div class="card-header">
                             <h4 class="my-0 font-weight-normal">
-                                <span th:utext="${productInfo.code}"></span>
+                                <span th:utext="${productInfo.name}"></span>
                             </h4>
                         </div>
 
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">$ <span th:utext="${#numbers.formatDecimal(productInfo.price,3,2,'COMMA')}"></span><small class="text-muted"> /each</small></h1>
+                            <h1 class="card-title pricing-card-title">$ <span th:utext="${#numbers.formatDecimal(productInfo.price,3,2,'POINT')}"></span><small class="text-muted"> /each</small></h1>
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li><span th:utext="${productInfo.name}"></span></li>
-                                <li><span th:utext="${productInfo.name}"></span></li>
-                                <li>Email support</li>
-                                <li>Help center access</li>
+                                <li><span th:utext="${productInfo.code}"></span></li>
+                                <!--<li><span th:utext="${productInfo.description}"></span></li>-->
+                                <li>More info...</li>
+                                <li>Even more info...</li>
                             </ul>
+                            
+                            <a  href="#"
+                            class="btn btn-primary btn-lg active"
+                            role="button"
+                            aria-pressed="true"
+                            th:href="@{|/productDetail?code=${productInfo.code}|}">Go</a>
+                            
+                            <!--
                             <button type="button" 
-                                    class="btn btn-lg btn-block btn-primary">Click</button>
+                                    class="btn btn-lg btn-block btn-primary">View</button>
+                            -->
                         </div>
                     </div>
 
                 </div>
 
-                <!--
+                
 
                 <div th:if="${paginationResult.totalPages > 1}">
-                    <th:block ht:each="page: ${paginationResult.navigationPages}">
-                        <a th:if="${page !- -1}" class="nav-item"
+                    <th:block th:each="page: ${paginationResult.navigationPages}">
+                        <a th:if="${page != -1}" class="nav-item"
                            th:href="@{|/productList?page=${page}|}" th:utext="${page}"></a>
 
                         <span th:if="${page == -1}" class="nav-item">...</span>
                     </th:block>
                 </div>
                 
-                -->
+                
 
             </div>
         </div>

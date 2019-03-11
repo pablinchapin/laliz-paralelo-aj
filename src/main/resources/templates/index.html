@@ -30,33 +30,64 @@
     <th:block th:include="/_header"></th:block>
     
     
+    <div class="container">
+    
+        <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+            <div class="col-md-12 px-0">
+                <h1 class="display-4 font-italic">Title of a longer list of benefits from LaLiz</h1>
+                <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this site’s contents.</p>
+                <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
+            </div>
+        </div>
+
+  
+        <div class="row mb-2">
+    
+            <div class="col-md-6"
+                th:each="categoryInfo: ${paginationResultCategory.list}">
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-success" th:text="${categoryInfo.code}"></strong>
+                        <h3 class="mb-0" th:text="${categoryInfo.name}"></h3>
+                        <div class="mb-1 text-muted">Nov 12</div>
+                        <p class="card-text mb-auto" th:text="${categoryInfo.description}"></p>
+                        
+                        <a  href="#"
+                        class="btn btn-primary btn-lg active stretched-link"
+                        role="button"
+                        aria-pressed="true"
+                        th:href="@{|/productList?categoryCode=${categoryInfo.code}&page=1|}">View</a>
+                        
+                        
+                        <!--<a  class="">View products</a>-->
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <img src="http://placehold.it/200x250" width="200" height="250" class="d-block w-100" alt="${categoryInfo.name}">
+                        <!-- <img th:src="${categoryInfo.imageUrl}" width="200" height="250" class="d-block w-100" alt="${categoryInfo.name}"> -->
+                        <!--
+                        <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                        -->
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    
     
     <div class="container">
         
+        <!--
         <div class="row mb-4 col-lg-12">
                         
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                
                 <div class="carousel-item active"
                      th:each="categoryInfo: ${paginationResultCategory.list}">
                     <img src="http://placehold.it/960x320" class="d-block w-100" alt="${categoryInfo.name}">
                 </div>
-                
-                
-                
-                <!--
-                
-                <div class="carousel-item active">
-                <img src="http://placehold.it/960x320" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                <img src="http://placehold.it/960x320" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                <img src="http://placehold.it/960x320" class="d-block w-100" alt="...">
-                </div>
-                -->
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -70,42 +101,8 @@
             
             
         </div>
+        -->
         
-        
-        
-        
-        <div class="row mt-2 col-lg-12">
-            
-            
-            <!--<div class="col-md-8 order-md-2">-->
-                
-            <div class="card-deck mb-3 text-center" style="min-width: 240px;">
-
-                <div class="card mb-4 shadow-sm"
-                     style="min-width: 220px; max-width: 220px;"
-                     th:each="productInfo: ${paginationResult.list}">
-                    <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">
-                            <span th:utext="${productInfo.code}"></span>
-                        </h4>
-                    </div>
-
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$ <span th:utext="${#numbers.formatDecimal(productInfo.price,3,2,'COMMA')}"></span><small class="text-muted"> /each</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li><span th:utext="${productInfo.name}"></span></li>
-                            <li><span th:utext="${productInfo.name}"></span></li>
-                            <li>Email support</li>
-                            <li>Help center access</li>
-                        </ul>
-                        <button type="button" 
-                                class="btn btn-lg btn-block btn-primary">Click</button>
-                    </div>
-                </div>
-            </div>
-            <!--</div>-->
-        
-        </div>
     </div>
     
     

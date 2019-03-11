@@ -35,8 +35,15 @@ public class ProductDAO {
     
     public Product findProduct(String code){
         try{
-            String sql = "SELECT i FROM "+Product.class.getName() + "i WHERE i.CODE = :code ";
+            //String sql = "SELECT i FROM "+Product.class.getName() + "i WHERE i.code = :code ";
             
+            String sql = "SELECt NEW " +Product.class.getName()
+                +" ( p.code, p.category_code, p.image_url, p.sale, p.name, p.price )" + " FROM "
+                + Product.class.getName() + " p ";
+        
+        
+            sql += " WHERE p.code = :code ";
+                        
             Session session = this.sessionFactory.getCurrentSession();
             Query<Product> query = session.createQuery(sql, Product.class);
             query.setParameter("code", code);
@@ -116,7 +123,7 @@ public class ProductDAO {
         sql += " WHERE p.sale = :sale ";
         
         if(categoryCode != null && categoryCode.length() > 0){
-            sql += " AND p.category_code = :categoryCode ";
+            sql += " AND p.category_code = :category_code ";
         }
         
         if(likeName != null && likeName.length() > 0){
@@ -131,13 +138,14 @@ public class ProductDAO {
         query.setParameter("sale", sale);
         
         if(categoryCode != null && categoryCode.length() > 0){
-            query.setParameter("category_code", "'" + categoryCode + "'");
+            query.setParameter("category_code", categoryCode);
         }
                 
         if(likeName != null && likeName.length() > 0){
             query.setParameter("likeName", "%" + likeName.toLowerCase() + "%");
         }
         
+                
         return new PaginationResult<>(query, page, maxResult, maxNavigationPage);
     }
     

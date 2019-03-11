@@ -115,7 +115,7 @@ public class MainController {
     return "categoryList";
     }
     
-    @RequestMapping({"productList"})
+    @RequestMapping({"/productList"})
     public String listProductHandler(
             Model model,
             @RequestParam(value = "name", defaultValue = "") String likeName,
@@ -136,6 +136,27 @@ public class MainController {
             
     return "productList";
     }
+    
+    
+    @RequestMapping({"/productDetail"})
+    public String viewProductHandler(
+            HttpServletRequest request,
+            Model model,
+            @RequestParam(value = "code", required = true) String code
+    ){
+        
+        Product product = null;
+        
+        product = productDAO.findProduct(code);
+        //ProductInfo result = productDAO.findProductInfo(code);
+        
+        ProductInfo productInfo = new ProductInfo(product);
+        
+        model.addAttribute("productInfo", productInfo);
+    
+        return "productDetail";
+    }
+    
     
     
     @RequestMapping({"/buyProduct"})

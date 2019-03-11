@@ -95,21 +95,21 @@ public class PaginationResult<E> {
         int begin = current - this.maxNavigationPage / 2;
         int end = current + this.maxNavigationPage / 2;
         
-        navigationPages.add(1);
+        this.navigationPages.add(1);
         
         if(begin > 2){
-            navigationPages.add(-1);
+            this.navigationPages.add(-1);
         }
         
         for(int i = begin; i < end; i++){
             if(i > 1 && i < this.totalPages){
-                navigationPages.add(i);
+                this.navigationPages.add(i);
             }
         }
         
         
         if(end < this.totalPages - 2){
-            navigationPages.add(this.totalPages);
+            this.navigationPages.add(this.totalPages);
         }
         
         
