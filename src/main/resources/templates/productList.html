@@ -19,18 +19,11 @@
     <link   rel="stylesheet" 
             href="https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css"
             th:href="@{https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css}"/>
-    <!--
-    <link   rel="stylesheet" 
-            href="dist/css/adminLTE.min.css" 
-            th:href="@{/dist/css/adminLTE.min.css}"/>
-    -->
+    
 </head>
 <body>
     
-    
     <th:block th:include="/_header"></th:block>
-    
-    
     
     
     <div class="container">
@@ -55,7 +48,7 @@
                         </div>
                         <span>
                             <a href="#"
-                            class="btn btn-primary btn-lg active"
+                            class="btn btn-primary btn-md active"
                             role="button"
                             aria-pressed="true"
                             th:href="@{|/productList?categoryCode=${categoryInfo.code}&page=1|}">View</a>
@@ -91,10 +84,10 @@
                             </ul>
                             
                             <a  href="#"
-                            class="btn btn-primary btn-lg active"
+                            class="btn btn-primary btn-md active"
                             role="button"
                             aria-pressed="true"
-                            th:href="@{|/productDetail?code=${productInfo.code}|}">Go</a>
+                            th:href="@{|/productDetail?code=${productInfo.code}|}">View</a>
                             
                             <!--
                             <button type="button" 

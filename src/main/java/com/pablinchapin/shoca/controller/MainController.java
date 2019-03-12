@@ -151,8 +151,11 @@ public class MainController {
         //ProductInfo result = productDAO.findProductInfo(code);
         
         ProductInfo productInfo = new ProductInfo(product);
+        CartInfo cartInfo = Utils.getCartInSession(request);
+        //cartInfo.updateQuantity(cartForm);
         
         model.addAttribute("productInfo", productInfo);
+        model.addAttribute("cartForm", cartInfo);
     
         return "productDetail";
     }
@@ -211,11 +214,28 @@ public class MainController {
     public String shoppingCartUpdateQuantity(
             HttpServletRequest request,
             Model model,
-            @ModelAttribute("cartForm") CartInfo cartForm
+            @RequestParam(value = "code", defaultValue = "") String code
+            //@RequestParam(value = "quantity", defaultValue = "1") int quantity,
+            //@ModelAttribute("cartForm") CartInfo cartForm
     ){
         
+        Product product = null;
+        
+        if(code != null && code.length() > 0){
+            product = productDAO.findProduct(code);
+        }
+        
+        if(product != null){
+            CartInfo cartInfo = Utils.getCartInSession(request);
+            ProductInfo productInfo = new ProductInfo(product);
+            
+            cartInfo.addProduct(productInfo, 1);
+        }
+        
+        
         CartInfo cartInfo = Utils.getCartInSession(request);
-        cartInfo.updateQuantity(cartForm);
+        //cartInfo.updateQuantity(cartForm);
+        model.addAttribute("cartForm", cartInfo);
     
     return "redirect:/shoppingCart";
     }

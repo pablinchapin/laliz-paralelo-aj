@@ -53,7 +53,7 @@
                         <p class="card-text mb-auto" th:text="${categoryInfo.description}"></p>
                         
                         <a  href="#"
-                        class="btn btn-primary btn-lg active stretched-link"
+                        class="btn btn-primary btn-md active stretched-link"
                         role="button"
                         aria-pressed="true"
                         th:href="@{|/productList?categoryCode=${categoryInfo.code}&page=1|}">View</a>
@@ -75,35 +75,6 @@
     
     </div>
     
-    
-    
-    <div class="container">
-        
-        <!--
-        <div class="row mb-4 col-lg-12">
-                        
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active"
-                     th:each="categoryInfo: ${paginationResultCategory.list}">
-                    <img src="http://placehold.it/960x320" class="d-block w-100" alt="${categoryInfo.name}">
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-            </div>
-            
-            
-        </div>
-        -->
-        
-    </div>
     
     
     <th:block th:include="/_footer"></th:block>
