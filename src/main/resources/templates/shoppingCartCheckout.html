@@ -40,6 +40,61 @@
         
         <div class="row">
             
+        <th:block th:if="${cartForm == null || cartForm.cartLines == null || cartForm.cartLines.empty}">
+            
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">There is no items in Cart</span>
+                    <span class="badge bagde-secondary badge-pill">0</span>
+                </h4>
+
+                <h6 class="d-flex justify-content-between align-items-center mb-3">
+                    <a class="nav-link" th:href="@{/productList}">Product List</a>
+                </h6>
+            </div>
+            
+        </th:block>
+        
+        
+        
+        <th:block th:if="${cartForm != null && cartForm.cartLines != null && !cartForm.cartLines.empty}">
+            
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge bagde-secondary badge-pill">3</span>
+                </h4>
+
+                <ul class="list-group mb-3">
+
+                    <li th:each="cartLineInfo, varStatus : ${cartForm.cartLines}"
+                        class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 th:utext="${cartLineInfo.productInfo.code}"
+                                class="my-0"></h6>
+                            <small th:utext="${cartLineInfo.productInfo.name}"
+                                class="text-muted"></small>
+                            <small th:utext="${cartLineInfo.quantity}"
+                                class="text-muted"></small>
+                            <small th:utext="${#numbers.formatDecimal(cartLineInfo.productInfo.price,3,2,'POINT')}"
+                                class="text-muted"></small>
+                        </div>
+                        <span th:utext="${#numbers.formatDecimal(cartLineInfo.amount,3,2,'POINT')}"
+                            class="text-muted"></span>
+                    </li>
+
+                </ul>
+
+                <a  href="#"
+                    class="btn btn-primary btn-md active"
+                    role="button"
+                    aria-pressed="true"
+                    th:href="@{/shoppingCartCheckout}">Checkout</a>
+            </div>
+            
+        </th:block>
+            
+            <!--
             <div class="col-md-4 order-md-2 mb-4">
                                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Your cart</span>
@@ -81,7 +136,7 @@
                 </ul>
                 
             </div>
-            
+            -->
             
             
             <div class="col-md-8 order-md-1">

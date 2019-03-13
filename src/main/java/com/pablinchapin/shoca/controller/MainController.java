@@ -214,22 +214,35 @@ public class MainController {
     public String shoppingCartUpdateQuantity(
             HttpServletRequest request,
             Model model,
-            @RequestParam(value = "code", defaultValue = "") String code
-            //@RequestParam(value = "quantity", defaultValue = "1") int quantity,
+            @RequestParam(value = "code", defaultValue = "") String code,
+            @RequestParam(value = "quantity", defaultValue = "1") int quantity,
+            @RequestParam(value = "action", defaultValue = "add") String action
             //@ModelAttribute("cartForm") CartInfo cartForm
     ){
         
         Product product = null;
+        
+        /*
+        System.out.println("/shoppingCart POST -- code-> "+code);
+        System.out.println("/shoppingCart POST -- quantity-> "+quantity);
+        System.out.println("/shoppingCart POST -- action-> "+action);
+        */
         
         if(code != null && code.length() > 0){
             product = productDAO.findProduct(code);
         }
         
         if(product != null){
+            
             CartInfo cartInfo = Utils.getCartInSession(request);
             ProductInfo productInfo = new ProductInfo(product);
             
-            cartInfo.addProduct(productInfo, 1);
+            if(action.equals("add")){
+                cartInfo.addProduct(productInfo, quantity);
+            }else{
+                    cartInfo.removeProduct(productInfo);
+            }
+            
         }
         
         
@@ -307,14 +320,18 @@ public class MainController {
     ){
         
         CartInfo cartInfo = Utils.getCartInSession(request);
-        /*
+        
+        model.addAttribute("cartForm", cartInfo);
+        //model.addAttribute("newCart", cartInfo);
+        
+        
         if(cartInfo == null || cartInfo.isEmpty()){
             return "redirect:/shoppingCart";
-        }else if(!cartInfo.isValidCustomer()){
+        }/*else if(!cartInfo.isValidCustomer()){
                 return "redirect:/shoppingCartCustomr";
         }
         */
-        model.addAttribute("newCart", cartInfo);
+        
     
     return "shoppingCartCheckout";
     }

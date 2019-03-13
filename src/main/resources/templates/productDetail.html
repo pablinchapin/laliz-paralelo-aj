@@ -77,20 +77,16 @@
                 </ul>
 
                 <a  href="#"
-                    class="btn btn-primary btn-lg active"
+                    class="btn btn-primary btn-md active"
                     role="button"
                     aria-pressed="true"
                     th:href="@{/shoppingCartCheckout}">Checkout</a>
-
-
-
             </div>
             
         </th:block>
         
             
-            
-            
+                        
             <div class="col-md-8 order-md-1">
                 
                 <h4 class="mb-3">Product Details</h4>
@@ -122,115 +118,47 @@
 
 
                         <div class="row">
-                        
-                            <!-- th:action="@{|/shoppingCart?code=${productInfo.code}|" -->
-                            <!--
-                             <form class="needs-validation" 
-                                    th:object="${cartLineInfo}"
-                                    th:action="@{|/shoppingCart?code=${productInfo.code}|}"
-                                    method="POST" enctype="multipart/form-data"
-                                    novalidate>
-                            
-                    
-                                <div class="col-md-6 mb-3">
-                                    
-                                    
-                                    
-                                    <!--
-                                    <input type="number" min="0" class="form-control" />
-                                    <label for="code">Code *</label>
-                                    <input type="hidden" th:field="*{newProduct}"  />
-                                    <input th:if="${productForm.newProduct}" type="hidden" />
-
-                                    <th:block th:if="${!productForm.newProduct}">
-                                        <span th:utext="${productForm.code}"></span>
-                                        <input type="hidden" th:field="*{code}" />
-                                    </th:block>
-
-                                    <input type="hidden" class="form-control" id="code" placeholder="" value="" required >
-                                    <div class="invalid-feedback">
-                                        <span th:if="${#fields.hasErrors('code')}"
-                                          th:errors="*{code}"></span>
-                                    </div>
-                                    
-                                    
-                                     th:errors="*{productForm.name}"
-                                    -->
-                                <!--
-                                </div>
-                    
-                                <div class="col-md-6 mb-3">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="text" class="form-control"  
-                                           th:field="*{cartLineInfo.quantity}"
-                                           id="quantity" placeholder=""  required />
-                                        <div class="invalid-feedback">
-                                            <span></span> th:if="${#fields.hasErrors('name')}" 
-                                        </div>
-                                </div>
-                                -->
-                    
-                                 <!--
-                    <div class="col-md-6 mb-3">
-                        <label for="price">Price</label>
-                        <input type="text" class="form-control" id="price" placeholder="" value="" required >
-                            <div class="invalid-feedback">
-                                <span th:if="${#fields.hasErrors('price')}"
-                                      th:errors="*{price}"></span>
-                            </div>
-                    </div>
-                    
-                    
-                    <hr class="mb-4" />
-                    <button class="btn btn-primary btn-md btn-block"
-                            type="submit">Add to cart</button>
-                    
-                    <button class="btn btn-danger btn-md btn-block"
-                            type="submit">Remove</button>
-                    
-                    
-                
-            </form>
-                            "@{|/shoppingCart?code=${productInfo.code}|}"
-                                 
-                            th:field="*{quantity}"
-                            -->
-                            
-                            <form class="needs-validation" 
-                                    th:action="@{|/shoppingCart?code=${productInfo.code}|}"
-                                    method="POST" enctype="multipart/form-data"
-                                    novalidate>
-                            
                             <div class="col-md-12">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" 
-                                       name="quantity"
-                                       id="quantity"
-                                       min="0" class="form-control" />
-                            </div>
-
-                            <div class="col-md-12 padding-0">
+                                <form th:action="@{|/shoppingCart?code=${productInfo.code}|}"
+                                    method="POST" enctype="multipart/form-data"
+                                    class="form-horizontal"
+                                    novalidate>
+                            
+                            
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <label for="quantity">Quantity</label>
+                                        <input type="number" 
+                                               class="form-control" id="quantity" 
+                                               name="quantity" value="1" min="0"
+                                               aria-describedby="Quantity" placeholder="">
+                                        <small id="quantityHelp" class="form-text text-muted">The more the better.</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary btn-md btn-block"
+                                        type="submit" name="action" id="action" value="add">Add to cart</button>
+                                    </div>
+                                </div>
                                 
-                                <button class="btn btn-primary btn-md btn-block"
-                                    type="submit">Add to cart</button>
-                    
-                    
                                 
-                                <!--
-                                <a  href="#"
-                                    class="btn btn-primary btn-md active"
-                                    role="button"
+                                <div class="form-group">
                                     
-                                    th:href="@{|/shoppingCart?code=${productInfo.code}&quantity=${quantity}|}" shoppingCart 
-                                    aria-pressed="true">Add to cart</a>
-                                -->
-                            </div>
-
-                            <div class="col-md-12 padding-0">
-                                <button class="btn btn-danger btn-md btn-block"
-                            type="submit">Remove</button>
-                            </div>
+                                    <div class="col-md-6">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-danger btn-md btn-block"
+                                        type="submit" name="action" id="action" value="remove">Remove</button>
+                                    </div>
+                                         
+                                    
+                                        
+                                </div>
+                                
                             </form>
+                            
+                            </div>
+                        
                             
                         </div>
                     

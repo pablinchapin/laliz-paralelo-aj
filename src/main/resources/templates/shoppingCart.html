@@ -33,7 +33,7 @@
         
         <th:block th:if="${cartForm == null || cartForm.cartLines == null || cartForm.cartLines.empty}">
             <div class="row">
-                <div class="col-md-8 order-md-2 mb-4">
+                <div class="col-md-12 mb-4">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-muted">There are no items</span>
                         <span class="badge bagde-secondary badge-pill">0</span>
@@ -54,10 +54,10 @@
             </div>
         </th:block>
         
-        
+        <!--
         <th:block th:if="${cartForm != null && cartForm.cartLines != null && !cartForm.cartLines.empty}">
             <div class="row">
-                <div class="col-md-8 order-md-2 mb-4">
+                <div class="col-md-12 mb-4">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-muted">Your cart</span>
                         <span class="badge bagde-secondary badge-pill">3</span>
@@ -92,8 +92,100 @@
                 </div>
             </div>
         </th:block>
+        -->
         
+        <th:block th:if="${cartForm != null && cartForm.cartLines != null && !cartForm.cartLines.empty}">
         
+        <div class="card shopping-cart">
+            <div class="card-header bg-dark text-light">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                Shopping cart
+                <a  href="#"
+                    class="btn btn-primary btn-md active pull-right"
+                    role="button"
+                    aria-pressed="true"
+                    th:href="@{/shoppingCartCheckout}">Continue shopping</a>
+                <!--<a href="" class="btn btn-outline-info btn-sm pull-right">Continue shopping</a>-->
+                <div class="clearfix"></div>
+            </div>
+            
+            <div class="card-body">
+                
+                
+                <div class="row" th:each="cartLineInfo, varStatus : ${cartForm.cartLines}">
+                    <div class="col-12 col-sm-12 col-md-2 text-center">
+                        <img class="img-responsive"  th:src="${cartLineInfo.productInfo.image_url}" alt="prewiew" width="120" height="80">
+                        <!-- src="http://placehold.it/120x80" -->
+                    </div>
+                    
+                    <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
+                        <h4 class="product-name"><strong th:utext="${cartLineInfo.productInfo.name}"></strong></h4>
+                        <h4>
+                            <small th:utext="${cartLineInfo.productInfo.code}"></small>
+                        </h4>
+                    </div>
+                    <form th:action="@{|/shoppingCart?code=${cartLineInfo.productInfo.code}|}"
+                            method="POST" class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
+                        <div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">
+                            <h6><strong th:utext="${#numbers.formatDecimal(cartLineInfo.amount,3,2,'POINT')}"><span class="text-muted">x</span></strong></h6>
+                        </div>
+                        
+                        <div class="col-4 col-sm-4 col-md-4">
+                            <div class="quantity">
+                                
+                                <input type="number" 
+                                        class="form-control" id="quantity" 
+                                        name="quantity" th:value="${cartLineInfo.quantity}" min="0"
+                                        aria-describedby="Quantity" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="col-2 col-sm-2 col-md-2 text-right">
+                            <button type="submit" 
+                                    name="action"
+                                    id="action" value="remove"
+                                    class="btn btn-outline-danger btn-xs">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            
+                        </div>
+                    </form>
+                <hr>
+                </div>
+                
+                
+                <div class="pull-right">
+                    <a href="" class="btn btn-outline-secondary pull-right">Update shopping cart</a>
+                </div>
+            
+            </div>
+            
+            <div class="card-footer">
+                <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
+                    <!--
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="cupone code">
+                        </div>
+                        <div class="col-6">
+                            <input type="submit" class="btn btn-default" value="Use cupone">
+                        </div>
+                    </div>
+                    -->
+                </div>
+                <div class="pull-right" style="margin: 10px">
+                    <a  href="#"
+                        class="btn btn-primary btn-md active"
+                        role="button"
+                        aria-pressed="true"
+                        th:href="@{/shoppingCartCheckout}">Checkout</a>
+                    <div class="pull-right" style="margin: 5px">
+                        Total price: <b>50.00€</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        </th:block>
         
         <!--
         <div class="row">
