@@ -25,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -70,6 +72,7 @@ public class MainController {
         if(target.getClass() == CartInfo.class){
         
         }else if(target.getClass() == CustomerForm.class){
+                System.out.println("target.getClass() == CustomerForm.class" +target.getClass());
                 dataBinder.setValidator(customerFormValidator);
         }
     
@@ -161,7 +164,7 @@ public class MainController {
     }
     
     
-    
+    /*
     @RequestMapping({"/buyProduct"})
     public String listProductHandler(
             HttpServletRequest request, 
@@ -184,8 +187,9 @@ public class MainController {
     
     return "redirect:/shoppingCart";
     }
+    */
     
-    
+    /*
     @RequestMapping({"/shoppingCartRemoveProduct"})
     public String removerProductHandler(
             HttpServletRequest request,
@@ -208,7 +212,7 @@ public class MainController {
     
     return "redirect:/shoppingCart";
     }
-    
+    */
     
     @RequestMapping(value = {"/shoppingCart"}, method = RequestMethod.POST)
     public String shoppingCartUpdateQuantity(
@@ -314,16 +318,12 @@ public class MainController {
     
     
     @RequestMapping(value = {"/shoppingCartCheckout"}, method = RequestMethod.GET)
-    public String shoppingCartConfirmationReview(
+    public String shoppingCartCheckoutReview(
             HttpServletRequest request,
             Model model
     ){
         
         CartInfo cartInfo = Utils.getCartInSession(request);
-        
-        model.addAttribute("cartForm", cartInfo);
-        //model.addAttribute("newCart", cartInfo);
-        
         
         if(cartInfo == null || cartInfo.isEmpty()){
             return "redirect:/shoppingCart";
@@ -332,19 +332,72 @@ public class MainController {
         }
         */
         
+        CustomerInfo customerInfo = cartInfo.getCustomerInfo();
+        CustomerForm customerForm = new CustomerForm(customerInfo);
+ 
+        model.addAttribute("cartForm", cartInfo);
+        model.addAttribute("customerForm", customerForm);
+        
     
     return "shoppingCartCheckout";
     }
     
     
     @RequestMapping(value = {"/shoppingCartCheckout"}, method = RequestMethod.POST)
-    public String shoppingCartConfirmationSave(
+    public String shoppingCartCheckoutSave(
             HttpServletRequest request,
-            Model model
+            Model model,
+            @ModelAttribute("customerForm") @Validated CustomerForm customerForm,
+            BindingResult result,
+            final RedirectAttributes redirectAttributes
     ){
         
         CartInfo cartInfo = Utils.getCartInSession(request);
+        CustomerInfo customerInfo = cartInfo.getCustomerInfo();
         
+        //System.out.println("/shoppingCartCheckout ->POST result.hasErrors() NO VALIDATED");
+        
+        if(result.hasErrors()){
+            
+            System.out.println("/shoppingCartCheckout ->POST result.hasErrors()");
+
+            
+            for(Object object : result.getAllErrors()) {
+                if(object instanceof FieldError) {
+                    FieldError fieldError = (FieldError) object;
+
+                    System.out.println("/shoppingCartCheckout POST fieldError-> " +fieldError.getCode());
+                }
+
+                if(object instanceof ObjectError) {
+                    ObjectError objectError = (ObjectError) object;
+
+                    System.out.println("/shoppingCartCheckout POST objectError-> " +objectError.getCode());
+                }
+            }
+            
+            System.out.println("/shoppingCartCheckout ->POST result-> " + result);
+            
+            customerForm.setValid(false);
+            
+            model.addAttribute("cartForm", cartInfo);
+            model.addAttribute("customerForm", customerForm);
+            
+            return "shoppingCartCheckout";
+        }
+        
+        //System.out.println("/shoppingCartCheckout ->POST result.hasErrors() NO ");
+        
+        customerForm.setValid(true);
+        
+        
+        //CustomerForm customerForm = new CustomerForm(customerInfo);
+ 
+        model.addAttribute("cartForm", cartInfo);
+        model.addAttribute("customerForm", customerForm);
+        
+        
+        /*
         if(cartInfo.isEmpty()){
             return "redirect:/shoppingCart";
         }else if(!cartInfo.isValidCustomer()){
@@ -360,10 +413,69 @@ public class MainController {
         
         Utils.removeCartInsession(request);
         Utils.storeLastOrderedCartInSession(request, cartInfo);
+        */
     
-    return "redirect:/shoppingCartFinalize";
+    return "redirect:/shoppingCartConfirmation";
     }
     
+    
+    
+    @RequestMapping(value = {"/shoppingCartConfirmation"}, method = RequestMethod.GET)
+    public String shoppingCartConfirmationReview(
+            HttpServletRequest request,
+            Model model
+            ){
+        
+        CartInfo cartInfo = Utils.getCartInSession(request);
+        CustomerInfo customerInfo = cartInfo.getCustomerInfo();
+        
+        
+        //System.out.println("@RequestMapping(value = {\"/shoppingCartConfirmation\"}, method = RequestMethod.GET)");
+        /*
+        if(cartInfo == null || cartInfo.isEmpty()){
+            return "redirect:/shoppingCart";
+        }else if(!cartInfo.isValidCustomer()){
+            return "redirect:/shoppingCartCheckout";
+        }
+        */
+        model.addAttribute("cartForm", cartInfo);
+        model.addAttribute("customerForm", customerInfo);
+        
+        return "shoppingCartConfirmation";
+    }
+    
+    
+    @RequestMapping(value = {"shoppingCartConfirmation"}, method = RequestMethod.POST)
+    public String shoppingCartConfirmationSave(
+            HttpServletRequest request, 
+            Model model
+    ){
+        CartInfo cartInfo = Utils.getCartInSession(request);
+        /*
+        if(cartInfo == null || cartInfo.isEmpty()){
+            return "redirect:/shoppingCart";
+        }else if(!cartInfo.isValidCustomer()){
+            return "redirect:/shoppingCartCheckout";
+        }
+        */
+        try{
+            orderDAO.saveOrder(cartInfo);
+        }catch(Exception ex){
+            
+            System.out.println(ex.getMessage());
+            return "shoppingCartConfirmation";
+        }
+        
+        Utils.removeCartInsession(request);
+        Utils.storeLastOrderedCartInSession(request, cartInfo);
+    
+        //return "redirect:/shoppingCartFinalize";
+        return "redirect:/";
+    }
+    
+    
+    
+        
     
     @RequestMapping(value = {"/shoppingCartFinalize"}, method = RequestMethod.GET)
     public String shoppingCartFinalize(HttpServletRequest request, Model model){

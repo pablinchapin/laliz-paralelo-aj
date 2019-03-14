@@ -61,7 +61,7 @@
             
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted">Your cart</span>
+                    <span class="text-muted">Order summary</span>
                     <span class="badge bagde-secondary badge-pill">3</span>
                 </h4>
 
@@ -86,10 +86,10 @@
                 </ul>
 
                 <a  href="#"
-                    class="btn btn-primary btn-md active"
+                    class="btn btn-outline-danger btn-xs"
                     role="button"
                     aria-pressed="true"
-                    th:href="@{/shoppingCartCheckout}">Checkout</a>
+                    th:href="@{/shoppingCartCheckout}">Cancel</a>
             </div>
             
         </th:block>
@@ -138,7 +138,190 @@
             </div>
             -->
             
+            <div class="col-md-8 order-md-1">
+                
+                <h4 class="mb-3">Billing address</h4>
+                
+                <form 
+                    method="POST" 
+                    th:object="${customerForm}"
+                    th:action="@{/shoppingCartCheckout}"
+                        
+                    class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name">First Name</label>
+                            <input 
+                                th:field="*{name}"
+                                type="text" class="form-control" 
+                                id="name" placeholder="" value="" required />
+                            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" 
+                                class="invalid-feedback"                                 
+                                 >Valid name is required</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="" value="" />
+                            <div class="invalid-feedback">Valid last name is required</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input 
+                                th:field="*{email}"
+                                type="text" class="form-control" 
+                                id="username" placeholder="Email" required />
+                            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" 
+                                class="invalid-feedback" style="width: 100%">Valid email is required</div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="mb-3">
+                        <label for="phone">Phone</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">#</span>
+                            </div>
+                            <input 
+                                th:field="*{phone}"
+                                type="text" class="form-control" 
+                                id="phone" placeholder="Phone" required />
+                            <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" 
+                                class="invalid-feedback" style="width: 100%">Valid phone is required</div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        <input 
+                            th:field="*{address}"
+                            type="text" class="form-control" 
+                            id="address" placeholder="1234 Main St." />
+                        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" 
+                                class="invalid-feedback" style="width: 100%">Please enter your shipping address</div>
+                        
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="address2">Address</label>
+                        <input type="text" class="form-control" id="address2" placeholder="5678 SubMain St." />
+                        <div class="invalid-feedback" style="width: 100%">Please enter a valid email address</div>
+                    </div>
+                    
+                    
+                    <div class="row">
+                        
+                        <div class="col-md-5 mb-3">
+                            <label for="country">Country</label>
+                            <select class="custom-select d-block w-100" id="country" >
+                                <option value="">Choose...</option>
+                                <option>Guatemala</option>
+                            </select>
+                            <div class="invalid-feedback" style="width: 100%">Please select a valid country</div>
+                        </div>
+                        
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="state">State</label>
+                            <select class="custom-select d-block w-100" id="state" >
+                                <option value="">Choose...</option>
+                                <option>Guatemala</option>
+                            </select>
+                            <div class="invalid-feedback" style="width: 100%">Please select a valid state</div>
+                        </div>
+                        
+                        <div class="col-md-3 mb-3">
+                            <label for="zip">Zip</label>
+                            <input type="text" class="form-control" id="zip" placeholder=""  />
+                            <div class="invalid-feedback" style="width: 100%">Zip code required</div>
+                        </div>
+                        
+                    </div>
+                    
+                    <hr class="mb-4" />
+                    
+                    <h4 class="mb-3"> Payment </h4>
+                    
+                    <div class="d-block my-3">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="credit" name="paymentMethod"
+                                   class="custom-control-input" checked  />
+                            <label class="custom-control-label" for="credit">Credit Card</label>
+                        </div>
+                        
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="debit" name="paymentMethod"
+                                   class="custom-control-input" checked />
+                            <label class="custom-control-label" for="debit">Debit Card</label>
+                        </div>
+                        
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="paypal" name="paymentMethod"
+                                   class="custom-control-input" checked />
+                            <label class="custom-control-label" for="paypal">PayPal</label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="cc-name">Name on card</label>
+                            <input type="text" class="form-control" id="cc-name" placeholder=""  />
+                            <small class="text-muted">Full name as displayed on card</small>
+                            <div class="invalid-feedback">Name on card is required</div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="cc-number">Credit card number</label>
+                            <input type="text" class="form-control" id="cc-number" placeholder="" />
+                            <div class="invalid-feedback">Credit card number required</div>
+                        </div>
+                    
+                    </div>
+                    
+                    <div class="row">
+                        
+                        <div class="col-md-3 mb-3">
+                            <label for="cc-expiration">Expiration</label>
+                            <input type="text" class="form-control" id="cc-expiration" placeholder="" />
+                            <div class="invalid-feedback">Expiration date required</div>
+                        </div>
+                        
+                        <div class="col-md-3 mb-3">
+                            <label for="cc-cvv">CVV</label>
+                            <input type="text" class="form-control" id="cc-cvv" placeholder="" />
+                            <div class="invalid-feedback">Security code required</div>
+                        </div>
+                    </div>
+                    
+                    <hr class="mb-4" />
+                    
+                    
+                    
+                    <button type="submit" 
+                            class="btn btn-outline-success btn-xs">
+                            <!--
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            -->
+                            Place order
+                            </button>
+                    
+                    
+                    
+                    
+                    
+                </form>
+                
             
+            
+            <!--
             <div class="col-md-8 order-md-1">
                 
                 <h4 class="mb-3">Billing address</h4>
@@ -304,6 +487,7 @@
         
                 
             </div>
+            -->
             
             
             

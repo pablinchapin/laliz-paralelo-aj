@@ -32,12 +32,14 @@ public class CustomerFormValidator implements Validator{
     @Override
     public void validate(Object target, Errors errors) {
         
+        System.out.println("public void validate(Object target, Errors errors)");
+        
         CustomerForm customerInfo = (CustomerForm) target;
         
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.custpmerForm.name");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.custpmerForm.email");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "NotEmpty.custpmerForm.address");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "NotEmpty.custpmerForm.phone");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.customerForm.name");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.customerForm.email");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "NotEmpty.customerForm.address");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "NotEmpty.customerForm.phone");
         
         if(!emailValidator.isValid(customerInfo.getEmail())){
             errors.rejectValue("email", "Pattern.customerForm.email");
