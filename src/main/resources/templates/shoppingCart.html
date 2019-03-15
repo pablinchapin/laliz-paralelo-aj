@@ -179,7 +179,7 @@
                         aria-pressed="true"
                         th:href="@{/shoppingCartCheckout}">Checkout</a>
                     <div class="pull-right" style="margin: 5px">
-                        Total price: <b>50.00€</b>
+                        Total price: <b th:utext="${#numbers.formatDecimal(cartForm.amountTotal,3,2,'POINT')}"></b>
                     </div>
                 </div>
             </div>

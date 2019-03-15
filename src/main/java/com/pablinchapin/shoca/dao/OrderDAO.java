@@ -43,11 +43,13 @@ public class OrderDAO {
     
     private int getMaxOrderNum(){
     
-        String sql = "SELECT MAX(o.ORDER_NUM) FROM " +Order.class.getName() + " o ";
+        String sql = "SELECT MAX(o.orderNum) FROM " +Order.class.getName() + " o ";
         Session session = this.sessionFactory.getCurrentSession();
         
         Query<Integer> query = session.createQuery(sql, Integer.class);
         Integer value = query.getSingleResult();
+        
+        System.out.println("private int getMaxOrderNum() -> "+ value);
         
         if(value == null){
             return 0;
@@ -57,7 +59,7 @@ public class OrderDAO {
     }
     
     
-    @Transactional(rollbackFor = Exception.class)
+    //@Transactional(rollbackFor = Exception.class)
     public void saveOrder(CartInfo cartInfo){
         
         Session session = this.sessionFactory.getCurrentSession();
@@ -77,9 +79,12 @@ public class OrderDAO {
         order.setCustomerPhone(customerInfo.getPhone());
         order.setCustomerAddress(customerInfo.getAddress());
         
+        System.out.println("Order "+order.toString());
+        
         session.persist(order);
         
         List<CartLineInfo> lines = cartInfo.getCartLines();
+        
         
         for(CartLineInfo line : lines){
             
@@ -156,8 +161,8 @@ public class OrderDAO {
                 + " (od.ID, od.PRODUCT.CODE, od.PRODUCT.NAME, od.QUANTITY, od.PRICE, od.AMOUNT ) "
                 + " FROM "
                 + OrderDetail.class.getName() 
-                + " d "
-                + " WHERE od.ORDER.ID = :orderId ";
+                + " od "
+                + " WHERE od.ID = :orderId ";
         
         Session session = this.sessionFactory.getCurrentSession();
         Query<OrderDetailInfo> query = session.createNativeQuery(sql, OrderDetailInfo.class);

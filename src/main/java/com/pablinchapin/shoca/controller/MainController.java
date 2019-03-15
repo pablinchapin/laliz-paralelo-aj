@@ -353,14 +353,8 @@ public class MainController {
     ){
         
         CartInfo cartInfo = Utils.getCartInSession(request);
-        CustomerInfo customerInfo = cartInfo.getCustomerInfo();
-        
-        //System.out.println("/shoppingCartCheckout ->POST result.hasErrors() NO VALIDATED");
         
         if(result.hasErrors()){
-            
-            System.out.println("/shoppingCartCheckout ->POST result.hasErrors()");
-
             
             for(Object object : result.getAllErrors()) {
                 if(object instanceof FieldError) {
@@ -376,8 +370,6 @@ public class MainController {
                 }
             }
             
-            System.out.println("/shoppingCartCheckout ->POST result-> " + result);
-            
             customerForm.setValid(false);
             
             model.addAttribute("cartForm", cartInfo);
@@ -386,36 +378,17 @@ public class MainController {
             return "shoppingCartCheckout";
         }
         
-        //System.out.println("/shoppingCartCheckout ->POST result.hasErrors() NO ");
-        
         customerForm.setValid(true);
         
+        CustomerInfo customerInfo = new CustomerInfo(customerForm);
+        cartInfo.setCustomerInfo(customerInfo);
         
-        //CustomerForm customerForm = new CustomerForm(customerInfo);
- 
+        
         model.addAttribute("cartForm", cartInfo);
         model.addAttribute("customerForm", customerForm);
         
         
-        /*
-        if(cartInfo.isEmpty()){
-            return "redirect:/shoppingCart";
-        }else if(!cartInfo.isValidCustomer()){
-                return "redirect:/shoppingCartCheckout";
-        }
-        
-        try{
-            orderDAO.saveOrder(cartInfo);
-        }catch(Exception e){
-            return "shoppingCartCheckout";
-        }
-        
-        
-        Utils.removeCartInsession(request);
-        Utils.storeLastOrderedCartInSession(request, cartInfo);
-        */
-    
-    return "redirect:/shoppingCartConfirmation";
+        return "redirect:/shoppingCartConfirmation";
     }
     
     
@@ -461,16 +434,16 @@ public class MainController {
         try{
             orderDAO.saveOrder(cartInfo);
         }catch(Exception ex){
-            
-            System.out.println(ex.getMessage());
+            //System.out.println("}catch(Exception ex){" +ex.getLocalizedMessage());
+            //System.out.println(ex.getMessage());
             return "shoppingCartConfirmation";
         }
         
         Utils.removeCartInsession(request);
         Utils.storeLastOrderedCartInSession(request, cartInfo);
     
-        //return "redirect:/shoppingCartFinalize";
-        return "redirect:/";
+        return "redirect:/shoppingCartFinalize";
+        //return "redirect:/";
     }
     
     

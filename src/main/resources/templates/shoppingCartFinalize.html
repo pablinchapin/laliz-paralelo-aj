@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">LaLiz</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no shrink-to-fit=no"/>
+    
+    <link   rel="stylesheet" 
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+            th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css}"
+            integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+            crossorigin="anonymous">
+    <link   rel="stylesheet" 
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            th:href="@{https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}"/>
+    <link   rel="stylesheet" 
+            href="https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css"
+            th:href="@{https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css}"/>
+    
+</head>
+<body>
+    
+    
+    <th:block th:include="/_header"></th:block>
+    
+    
+    <div class="container">
+        
+        <h1 class="h3 mb-3 font-weight-normal">Thanks for your order!</h1>
+        
+        
+        <div class="row">
+            
+            <div class="col-md-4 order-md-2">
+                
+                <h4 class="mb-3">LaChoca</h4>
+                
+                <!--
+                    <div class="row">
+                        <label for="name">First Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            --
+                            <input 
+                                type="text" class="form-control" 
+                                th:value="${customerForm.name}"
+                                disabled
+                                />
+                            --
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            --
+                            <input 
+                                type="text" class="form-control" 
+                                th:value="${customerForm.email}"
+                                disabled
+                                />
+                            --
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="mb-3">
+                        <label for="phone">Phone</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">#</span>
+                            </div>
+                            --
+                            <input 
+                                type="text" class="form-control" 
+                                th:value="${customerForm.phone}"
+                                disabled />
+                            --
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        --
+                        <input
+                            type="text" class="form-control" 
+                            th:value="${customerForm.address}"
+                            disabled />
+                        --
+                    </div>
+                    
+                    -->
+                    
+                    
+            </div>
+            
+            
+            <div class="col-md-8 order-md-1">
+                <h4 class="mb-3">Your order number is: 
+                    <span th:utext="${lastOrderedCart.orderNum}"></span>
+                </h4>
+                
+                
+                <h5 class="mb-3">We hope you enjoy it! </h5>
+                
+                <h5 class="mb-3">Come back soon! </h5>
+                
+                <!--
+                <table>
+                    <tr th:each="var : ${lastOrderedCart}">
+                        --
+                        <td th:text="${var.key}"></td>
+                        <td th:text="${var.value}"></td>
+                        --
+                        <td th:text="${var.orderNum}"></td>
+                    </tr>
+                </table>
+                -->
+                <!--
+                <table>
+                    <tr th:each="var : ${#vars.getVariableNames()}">
+                        <td th:text="${var}"></td>
+                        <td th:text="${#vars.getVariable(var)}"></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>param</td>
+                        <td th:text="${#vars.getVariable('param')}"></td>
+                    </tr>
+                    <tr>
+                        <td>session</td>
+                        <td th:text="${#vars.getVariable('session')}"></td>
+                    </tr>
+                    <tr>
+                        <td>application</td>
+                        <td th:text="${#vars.getVariable('application')}"></td>
+                    </tr>
+                </table>
+                -->
+            </div>
+            
+            
+            
+        
+        </div>
+        
+        
+            
+            
+            
+        
+        </div>
+        
+    
+    
+    
+    <th:block th:include="/_footer"></th:block>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      
+</body>
+</html>
